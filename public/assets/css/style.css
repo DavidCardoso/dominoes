@@ -11,7 +11,8 @@ body {
 	margin: 20px auto;
 	padding: 0px;
 	background-color: none;
-	text-align: center;
+	text-align: left;
+	vertical-align: middle;
 	font-family: Courier;
 	color: #b3d9ff;
 }
@@ -52,6 +53,10 @@ a:hover {
 	color: #a0ccf7;
 }
 
+footer {
+	text-align: center;
+}
+
 footer a {
 	color: #cecece;
 	background-color: none;
@@ -59,11 +64,7 @@ footer a {
 
 .box-shadow {
 	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-	-webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-	-moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 	border-radius: 5px;
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
 }
 
 .inline {
@@ -80,4 +81,15 @@ footer a {
 
 .pipe:before {
 	content: " | ";
+}
+
+.app-icon {
+	background: #fff url('../images/favicon.png') no-repeat left top;
+	padding: 0 0 0 60px;
+	line-height: 50px;
+}
+
+.datetime {
+	font-size: 0.8em;
+	font-style: italic;
 }
