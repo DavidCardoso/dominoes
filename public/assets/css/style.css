@@ -1,0 +1,83 @@
+@charset "UTF-8";
+
+html {
+	background-color: #f7f9f9;
+}
+
+body {
+	min-width: 350px;
+	max-width: 800px;
+	min-height: 500px;
+	margin: 20px auto;
+	padding: 0px;
+	background-color: none;
+	text-align: center;
+	font-family: Courier;
+	color: #b3d9ff;
+}
+
+.content {
+	width: 100%;
+	height: 100%;
+	padding: 10px;
+	background-color: #fff;
+}
+
+footer {
+	background-color: none;
+	font-size: 0.7em;
+	color: #cecece;
+	margin: 15px 0 0 0;
+}
+
+h1, h2 {
+	color: #a0ccf7;
+}
+
+hr {
+	opacity: 0.1;
+}
+
+ul {
+	list-style-type: none;
+}
+
+a {
+	color: #b3d9ff;
+	text-decoration: none;
+	margin: 5px;
+}
+
+a:hover {
+	color: #a0ccf7;
+}
+
+footer a {
+	color: #cecece;
+	background-color: none;
+}
+
+.box-shadow {
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+	-webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+	-moz-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+	border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+}
+
+.inline {
+	display: inline-block;
+}
+
+.copyright:after {
+	content: "©2018 All rights reserved";
+}
+
+.poweredby:before {
+	content: "Powered by ";
+}
+
+.pipe:before {
+	content: " | ";
+}
