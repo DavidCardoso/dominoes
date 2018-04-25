@@ -48,7 +48,7 @@ class Domino
 	 * Adds a tile on the board.
 	 *
 	 * @param      array   	$source     The source
-	 * @param      array  	$target  	The targte
+	 * @param      array  	$target  	The target
 	 * @param      integer  $qty     	The quantity of tiles to be drawn
 	 *
 	 * @return     array   Last drawn tile
@@ -158,7 +158,6 @@ class Domino
 						$this->printTile($left)
 					)
 				];
-				break;
 
 			case 'right':
 				unset($this->players[$name][$tileKey]);
@@ -173,11 +172,9 @@ class Domino
 						$this->printTile($right)
 					)
 				];
-				break;
 			
 			default:
 				return [false, 'Oops. =/'];
-				break;
 		}
 	}
 
@@ -199,23 +196,26 @@ class Domino
 
 		// check if the player's tiles match with one of the tiles of the board
 		foreach ($this->players[$name] as $key => $value) {
-			// try LEFT side
-			$foundLeft = array_search($left, $value);
-			
-			if ( $foundLeft === 1) { // add the current tile on the left side
-				return $this->addTileOnTheBoard($name, $key, $value, 'left');;
-			}
-			if ($foundLeft === 0) { // invert the current tile and then add on the left side
-				return $this->addTileOnTheBoard($name, $key, array_reverse($value), 'left');;
-			}
-			// try RIGHT side
-			$foundRight = array_search($right, $value);
-			
-			if ( $foundRight === 0) { // add the current tile on the right
-				return $this->addTileOnTheBoard($name, $key, $value, 'right');;
-			}
-			if ($foundRight === 1) { // invert the current tile and then add on the right side
-				return $this->addTileOnTheBoard($name, $key, array_reverse($value), 'right');;
+			if (rand(0,1) === 0) {
+				// try LEFT side
+				$foundLeft = array_search($left, $value);
+				
+				if ( $foundLeft === 1) { // add the current tile on the left side
+					return $this->addTileOnTheBoard($name, $key, $value, 'left');;
+				}
+				if ($foundLeft === 0) { // invert the current tile and then add on the left side
+					return $this->addTileOnTheBoard($name, $key, array_reverse($value), 'left');;
+				}
+			} else {
+				// try RIGHT side
+				$foundRight = array_search($right, $value);
+				
+				if ( $foundRight === 0) { // add the current tile on the right
+					return $this->addTileOnTheBoard($name, $key, $value, 'right');;
+				}
+				if ($foundRight === 1) { // invert the current tile and then add on the right side
+					return $this->addTileOnTheBoard($name, $key, array_reverse($value), 'right');;
+				}
 			}
 		}
 

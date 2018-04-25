@@ -2,7 +2,7 @@
 Dominoes programming challenge.
 
 ## Requirements
-- [GIT](https://git-scm.com/downloads) for source code versioning
+- [Git](https://git-scm.com/downloads) for source code versioning
 - [PHP 7.0 or higher](http://php.net/downloads.php) =D
 - [Laradock](http://laradock.io) to supports the development infrastructure
 
