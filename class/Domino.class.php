@@ -79,16 +79,6 @@ class Domino
 	}
 
 	/**
-	 * Gets the board.
-	 *
-	 * @return     array  The board.
-	 */
-	function getBoard():array
-	{
-		return $this->board;
-	}
-
-	/**
 	 * Gets the winner.
 	 *
 	 * @return     string  The winner.
@@ -128,7 +118,7 @@ class Domino
 	function startGame(): string
 	{
 		$this->draw($this->stock, $this->board, 1);
-		return 'Game starting with first tile: '.$this->printTile(current($this->getBoard()));
+		return 'Game starting with first tile: '.$this->printTile($this->board[0]);
 	}
 
 	/**
@@ -146,7 +136,7 @@ class Domino
 		switch ($side) {
 			case 'left':
 				unset($this->players[$name][$tileKey]);
-				$left = current($this->board);
+				$left = $this->board[0];
 				array_unshift($this->board, $tile);
 				$this->checkWinner($name);
 				return [
@@ -193,8 +183,8 @@ class Domino
 			return [true, 'The end.'];
 		}
 
-		$left = current($this->getBoard())[0];
-		$right = end($this->getBoard())[1];
+		$left = $this->board[0][0];
+		$right = end($this->board)[1];
 
 		// check if the player's tiles match with one of the tiles of the board
 		foreach ($this->players[$name] as $key => $value) {
@@ -222,19 +212,31 @@ class Domino
 		return $this->drawFromStock($name);
 	}
 
+	/**
+	 * Draws a from stock.
+	 *
+	 * @param      string  $name   The name of the player
+	 *
+	 * @return     array   array Status of the board after the playing
+	 */
 	function drawFromStock(string $name): array
 	{
-		$end = empty($this->stock) ? true : false;
+		$end = count($this->stock) === 0 ? true : false;
 		if ($end) {
-			return [true, 'Without stock!'];
+			return [
+				true,
+				sprintf('Without stock! %s cannot play.', $name)
+			];
 		}
 		$this->draw($this->stock, $this->players[$name], 1);
 		array_reverse($this->players[$name]);
+		reset($this->players[$name]);
 		return [
 			false, 
 			sprintf('%s cannot play, drawing tile %s.', 
 				$name, 
-				$this->printTile(current($this->players[$name])))
+				$this->printTile(current($this->players[$name]))
+			)
 		];
 	}
 

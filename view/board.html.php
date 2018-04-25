@@ -19,14 +19,16 @@ $domino = new Domino($players);
 <h3><?php echo $domino->startGame(); ?></h2>
 <div>
 	<?php 
-		while ( $domino->getWinner() === ''){
+		$moves = 0;
+		do {
 			foreach ($players as $value) {
 				do {
 					list($played, $msg) = $domino->play($value);
 					echo '<p>'.$msg.'</p>';
 				} while (!$played);
+				$moves++;
 			}
-		}
+		} while ( $domino->getWinner() === '');
 	?>
 </div>
 
