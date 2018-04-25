@@ -1,6 +1,10 @@
 <?php
-ini_set( 'display_errors', '1' );
+$env = $_GET['env'] ?? 'pro';
+if ($env !== 'pro') {
+	ini_set( 'display_errors', '1' );
+}
 ini_set( 'memory_limit', '256M' );
+
 require_once '../class/Domino.class.php';
 
 $players = ['Celina', 'David'];
@@ -19,16 +23,17 @@ $domino = new Domino($players);
 <h3><?php echo $domino->startGame(); ?></h2>
 <div>
 	<?php 
-		$moves = 0;
 		do {
 			foreach ($players as $value) {
 				do {
 					list($played, $msg) = $domino->play($value);
-					echo '<p>'.$msg.'</p>';
-				} while (!$played);
-				$moves++;
+					printf('<p>%s</p>', $msg);
+				} while (!$played && !$domino->getTie());
+				if ($domino->getWinner() === '') {
+					printf('<p>%s</p>', $domino->printBoard());
+				}
 			}
-		} while ( $domino->getWinner() === '');
+		} while ($domino->getWinner() === '' && !$domino->getTie());
 	?>
 </div>
 

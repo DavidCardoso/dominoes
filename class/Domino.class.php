@@ -4,11 +4,13 @@
 */
 class Domino
 {
-	private $tiles = [];
-	private $stock = [];
-	private $players = [];
-	private $board = [];
-	private $winner = '';
+	private $tiles = []; // array with the initial tiles
+	private $stock = []; // array with the stock
+	private $players = []; // array with the players and their tiles
+	private $board = []; // array with the tiles on the board
+	private $winner = ''; // filled when there is a winner
+	private $withoutStock = 0; // quantity of players without stock, 
+	private $tie = false; // if $withoutStock equals to the quantity of players, then its a tie
 
 	/**
 	 * Domino class constructor
@@ -20,6 +22,7 @@ class Domino
 	{
 		$this->generateTiles($maxValue);
 		$this->draw($this->tiles, $this->stock, ($maxValue+1)*2);
+
 		foreach ($namePlayers as $value) {
 			$this->players[$value] = [];
 			$this->draw($this->tiles, $this->players[$value], ($maxValue+1));
@@ -42,13 +45,15 @@ class Domino
 	}
 
 	/**
-	 * Draws tiles from an array to another
+	 * Adds a tile on the board.
 	 *
-	 * @param      array    $source  The source
-	 * @param      array    $target  The target
-	 * @param      integer  $qty     The quantity to be drawn
+	 * @param      array   	$source     The source
+	 * @param      array  	$target  	The targte
+	 * @param      integer  $qty     	The quantity of tiles to be drawn
+	 *
+	 * @return     array   Last drawn tile
 	 */
-	function draw(array &$source, array &$target, int $qty = 1): void
+	function draw(array &$source, array &$target, int $qty = 1): array
 	{
 		if ($qty > count($source)) {
 			$qty = count($source);
@@ -56,26 +61,8 @@ class Domino
 		for ($i=0; $i < $qty; $i++) { 
 			$target[] = array_pop($source);
 		}
-	}
 
-	/**
-	 * Gets the tiles.
-	 *
-	 * @return     array  The tiles.
-	 */
-	function getTiles(): array
-	{
-		return $this->tiles;
-	}
-
-	/**
-	 * Gets the stock.
-	 *
-	 * @return     array  The stock.
-	 */
-	function getStock(): array
-	{
-		return $this->stock;
+		return end($target);
 	}
 
 	/**
@@ -86,6 +73,16 @@ class Domino
 	function getWinner(): string
 	{
 		return $this->winner;
+	}
+
+	/**
+	 * Gets tie.
+	 *
+	 * @return     bool Tie.
+	 */
+	function getTie(): bool
+	{
+		return $this->tie;
 	}
 
 	/**
@@ -111,14 +108,28 @@ class Domino
 	}
 
 	/**
+	 * Prints the board
+	 * 
+	 * @return string The tiles on the board
+	 */ 
+	function printBoard(): string
+	{
+		$board = 'Board is now:<br>';
+		foreach ($this->board as $value) {
+			$board .= ' '.$this->printTile($value);
+		}
+		return $board.'.';
+	}
+
+	/**
 	 * Starts the game.
 	 *
 	 * @return     string  The initial text
 	 */
 	function startGame(): string
 	{
-		$this->draw($this->stock, $this->board, 1);
-		return 'Game starting with first tile: '.$this->printTile($this->board[0]);
+		$tile = $this->draw($this->stock, $this->board, 1);
+		return 'Game starting with first tile: '.$this->printTile($tile);
 	}
 
 	/**
@@ -165,7 +176,7 @@ class Domino
 				break;
 			
 			default:
-				return '';
+				return [false, 'Oops. =/'];
 				break;
 		}
 	}
@@ -213,7 +224,7 @@ class Domino
 	}
 
 	/**
-	 * Draws a from stock.
+	 * Draws a tile from stock.
 	 *
 	 * @param      string  $name   The name of the player
 	 *
@@ -221,21 +232,30 @@ class Domino
 	 */
 	function drawFromStock(string $name): array
 	{
-		$end = count($this->stock) === 0 ? true : false;
-		if ($end) {
+		$hasStock = count($this->stock) === 0 ? false : true;
+		if (!$hasStock) {
+			if (++$this->withoutStock === count($this->players)) { // checks if it is a tie
+				$this->tie = true;
+				return [
+					false, 
+					'Nobody can play. It is a tie!!'
+				];
+			}
 			return [
-				true,
-				sprintf('Without stock! %s cannot play.', $name)
-			];
+					true, 
+					sprintf('Without stock! %s cannot play.', $name)
+				];
 		}
-		$this->draw($this->stock, $this->players[$name], 1);
+
+		$tile = $this->draw($this->stock, $this->players[$name], 1);
 		array_reverse($this->players[$name]);
 		reset($this->players[$name]);
+
 		return [
 			false, 
 			sprintf('%s cannot play, drawing tile %s.', 
 				$name, 
-				$this->printTile(current($this->players[$name]))
+				$this->printTile($tile)
 			)
 		];
 	}
