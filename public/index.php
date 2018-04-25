@@ -15,20 +15,20 @@
 </head>
 <body>
 	<div class="content box-shadow">
-		<header class="">
+		<header>
 	 		<h1 class="app-icon">Dominoes</h1>
 	 		<hr>
 		</header>
 
-		<section class="">
-		 	<?php include_once 'view/board.html.php' ?>
+		<section>
+		 	<?php include_once '../view/board.html.php' ?>
 		</section>
 	</div>
 
  	<footer>
  		<div class="inline copyright"></div>
  		<div class="inline pipe"></div>
- 		<div class="inline poweredby"><a href="https://davidcardoso.me">David Cardoso</a></div>
+ 		<div class="inline poweredby"><a href="https://davidcardoso.me" target="_blank">David Cardoso</a></div>
 	</footer>
 </body>
 </html>
