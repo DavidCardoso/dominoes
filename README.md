@@ -10,7 +10,7 @@ Dominoes programming challenge.
 - None framework was used
 - No concern about MVC
 - The focus is on the problem itself and the good dev practices (e.g., PSR-4)
- - default resources of the PHP (functions, class, data structure, etc.)
- - comments
- - indentation
- - correctness, clarity, and understandability of the code
+  - default resources of the PHP (functions, class, data structure, etc.)
+  - comments
+  - indentation
+  - correctness, clarity, and understandability of the code
