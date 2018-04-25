@@ -1,4 +1,5 @@
-<?php 
+<?php
+// ini_set( 'display_errors', '1' );
 require_once '../class/Domino.class.php';
 
 $domino = new Domino();
@@ -11,3 +12,4 @@ $domino = new Domino();
 	</p>
 	<?php endforeach; ?>
 </div>
+

@@ -6,24 +6,30 @@ class Domino
 {
 	private $tiles;
 	private $stock;
+	private $players;
 	private $board;
 
 	/**
 	 * Domino class constructor
 	 *
-	 * @param      integer  $maxValue  The maximum value
+	 * @param      array    $namePlayers  The name of the players
+	 * @param      integer  $maxValue     The maximum value on the tiles
 	 */
-	function __construct(int $maxValue = 6)
+	function __construct(array $namePlayers = ['Arye', 'David'], int $maxValue = 6)
 	{
 		$this->generateTiles($maxValue);
+		$this->stock = [];
 		$this->draw($this->tiles, $this->stock, ($maxValue+1)*2);
-		// $this->makeMove(0);
+		foreach ($namePlayers as $value) {
+			$this->players[$value] = [];
+			$this->draw($this->tiles, $this->players[$value], ($maxValue+1));
+		}
 	}
 
 	/**
 	 * Generate the tiles.
 	 *
-	 * @param      integer  $maxValue  The maximum value
+	 * @param      integer  $maxValue  The maximum value on the tiles
 	 */
 	private function generateTiles(int $maxValue): void
 	{
@@ -32,6 +38,7 @@ class Domino
 				$this->tiles[] = [$i,$j];
 			}
 		}
+		shuffle($this->tiles);
 	}
 
 	/**
@@ -44,15 +51,36 @@ class Domino
 		return $this->tiles;
 	}
 
+	/**
+	 * Gets the stock.
+	 *
+	 * @return     array  The stock.
+	 */
+	function getStock(): array
+	{
+		return $this->stock;
+	}
+
+	/**
+	 * Gets the player.
+	 *
+	 * @param      string  $name   The name
+	 *
+	 * @return     array   The player.
+	 */
+	function getPlayer(string $name): array
+	{
+		return $this->players[$name];
+	}
 
 	/**
 	 * Draw tiles from an array to another
 	 *
 	 * @param      array    $source  The source
 	 * @param      array    $target  The target
-	 * @param      integer  $qty     The quantity
+	 * @param      integer  $qty     The quantity to be drawn
 	 */
-	function draw(array &$source, array &$target, int $qty): void
+	function draw(array &$source, array &$target, int $qty = 1): void
 	{
 		for ($i=0; $i < $qty; $i++) { 
 			$target[] = array_pop($source);
