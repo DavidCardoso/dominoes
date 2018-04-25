@@ -17,7 +17,6 @@ $domino = new Domino($players);
 		<?php printf('%d) %s', $key+1, $value); ?>
 	</p>
 	<?php endforeach; ?>
-
 </div>
 
 <h3><?php echo $domino->startGame(); ?></h2>
