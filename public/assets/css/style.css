@@ -87,13 +87,51 @@ p {
 	content: " | ";
 }
 
-.app-icon {
-	background: #fff url('../images/favicon.png') no-repeat left top;
-	padding: 0 0 0 60px;
-	line-height: 50px;
-}
-
 .datetime {
 	font-size: 0.8em;
 	font-style: italic;
 }
+
+.icon {
+	padding: 0 0 0 60px;
+	min-height: 55px;
+	line-height: 50px;
+}
+
+.app {
+	background: #fff url('../images/domino-icon-1-thumb.png') no-repeat left top;
+}
+
+.start {
+	background: #fff url('../images/arrow-down-blue-thumb.png') no-repeat left top;
+}
+
+.winner {
+	background: #fff url('../images/medal-icon-thumb.png') no-repeat left top;
+}
+
+.board {
+	background: #fff url('../images/table-thumb.png') no-repeat left top;
+	line-height: 25px;
+}
+
+.domino {
+	background: #fff url('../images/domino-icon-2-thumb.png') no-repeat left top;
+}
+
+.draw {
+	background: #fff url('../images/warning-icon-blue-thumb.png') no-repeat left top;
+}
+
+.error {
+	background: #fff url('../images/warning-icon-blue-thumb.png') no-repeat left top;
+}
+
+.tie {
+	background: #fff url('../images/tie-icon-blue-thumb.png') no-repeat left top;
+}
+
+.without-stock {
+	background: #fff url('../images/bucket-icon-blue-thumb.png') no-repeat left top;
+}
+
