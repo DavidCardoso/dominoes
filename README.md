@@ -18,4 +18,4 @@ Dominoes programming challenge.
   - Correctness, clarity, and understandability of the code
 
 ## The Challenge
-![Dominoes programming challenge](assets/imagens/dominoes-programming-challenge.png)
+![Dominoes programming challenge](public/assets/imagens/dominoes-programming-challenge.png)
