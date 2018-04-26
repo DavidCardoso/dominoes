@@ -7,16 +7,17 @@
 	<meta name="keywords" content="PHP, Algorithm, Data Structures, Challenge, For Fun, Dominoes">
 	<meta name="author" content="David Cardoso Gomes da Silva">
 	
-	<title>Dominoes | David Cardoso</title>
+	<title>DOMINOES | David Cardoso</title>
 
 	<link rel="shortcut icon" type="image/png" href="assets/images/favicon.png"/>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Share+Tech+Mono">
 	<link rel="stylesheet" href="assets/css/style.css"/>
 	<script src="assets/js/script.js"></script>
 </head>
 <body>
 	<div class="content box-shadow">
 		<header>
-	 		<h1 class="icon app">Dominoes</h1>
+	 		<h1 class="icon app">DOMINOES</h1>
 	 		<hr>
 		</header>
 
