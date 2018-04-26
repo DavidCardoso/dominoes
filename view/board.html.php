@@ -9,7 +9,10 @@ require_once '../class/Domino.class.php';
 
 $players = ['Celina', 'David'];
 $domino = new Domino($players);
+$datetime = date("l, F j, Y, g:i A (e)");
 ?>
+<div class="datetime"><?=$datetime;?></div>
+
 <h2>Players</h2>
 <div>
 	<?php foreach ($players as $key => $value): ?>

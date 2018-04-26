@@ -90,6 +90,8 @@ p {
 .datetime {
 	font-size: 0.8em;
 	font-style: italic;
+	color: #cecece;
+	text-align: right;
 }
 
 .icon {
