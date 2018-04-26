@@ -17,6 +17,8 @@ class Domino
 	 *
 	 * @param      array    $namePlayers  The name of the players
 	 * @param      integer  $maxValue     The maximum value on the tiles
+	 * 
+	 * @pre $maxValue >= 5
 	 */
 	function __construct(array $namePlayers = ['Alice', 'Bob'], int $maxValue = 6)
 	{
