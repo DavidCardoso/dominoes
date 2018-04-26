@@ -16,7 +16,7 @@
 <body>
 	<div class="content box-shadow">
 		<header>
-	 		<h1 class="app-icon">Dominoes</h1>
+	 		<h1 class="icon app">Dominoes</h1>
 	 		<hr>
 		</header>
 

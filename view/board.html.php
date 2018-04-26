@@ -19,21 +19,28 @@ $domino = new Domino($players);
 	<?php endforeach; ?>
 </div>
 
-<h3><?php echo $domino->startGame(); ?></h2>
+<h3 class="icon start"><?=$domino->startGame();?></h3>
 <div>
 	<?php 
 		do {
 			foreach ($players as $value) {
 				do {
-					list($played, $msg) = $domino->play($value);
-					printf('<p>%s</p>', $msg);
+					list($played, $type, $msg) = $domino->play($value);
+					if ($type !== '') {
+						printf('<p class="icon %s">%s</p>', $type, $msg);
+					}
 				} while (!$played && !$domino->getTie());
-				if ($domino->getWinner() === '') {
-					printf('<p>%s</p>', $domino->printBoard());
+				if ($domino->getWinner() === '' && !$domino->getTie()) {
+					printf('<p class="icon board">%s</p>', $domino->printBoard());
 				}
 			}
 		} while ($domino->getWinner() === '' && !$domino->getTie());
 	?>
 </div>
 
-<h3><?php echo $domino->getWinner(); ?></h3>
+<?php 
+$winner = $domino->getWinner();
+if ($winner !== ''): ?>
+<p class="icon board"><?=$domino->printBoard();?></p>
+<h3 class="icon winner"><?=$winner;?></h3>
+<?php endif; ?>

@@ -9,7 +9,7 @@ class Domino
 	private $players = []; // array with the players and their tiles
 	private $board = []; // array with the tiles on the board
 	private $winner = ''; // filled when there is a winner
-	private $withoutStock = 0; // quantity of players without stock, 
+	private $withoutStock = []; // quantity of players without stock, 
 	private $tie = false; // if $withoutStock equals to the quantity of players, then its a tie
 
 	/**
@@ -92,7 +92,9 @@ class Domino
 	 */
 	function checkWinner(string $name): void
 	{
-		$this->winner = count($this->players[$name]) === 0 ? "Player $name has won!" : '';
+		if ($this->winner === '' && count($this->players[$name]) === 0) {
+			$this->winner = "Player $name has won!";
+		}
 	}
 
 	/**
@@ -152,6 +154,7 @@ class Domino
 				$this->checkWinner($name);
 				return [
 					true, 
+					'domino',
 					sprintf('%s plays %s to connect to tile %s on the board.', 
 						$name, 
 						$this->printTile($tile), 
@@ -166,6 +169,7 @@ class Domino
 				$this->checkWinner($name);
 				return [
 					true, 
+					'domino',
 					sprintf('%s plays %s to connect to tile %s on the board.', 
 						$name, 
 						$this->printTile($tile), 
@@ -174,53 +178,8 @@ class Domino
 				];
 			
 			default:
-				return [false, 'Oops. =/'];
+				return [false, 'error', 'Oops. =/'];
 		}
-	}
-
-	/**
-	 * Plays
-	 *
-	 * @param      string  $name   The name
-	 *
-	 * @return     array Status of the board after the playing
-	 */
-	function play(string $name): array
-	{
-		if ($this->getWinner() != '') {
-			return [true, 'The end.'];
-		}
-
-		$left = $this->board[0][0];
-		$right = end($this->board)[1];
-
-		// check if the player's tiles match with one of the tiles of the board
-		foreach ($this->players[$name] as $key => $value) {
-			if (rand(0,1) === 0) {
-				// try LEFT side
-				$foundLeft = array_search($left, $value);
-				
-				if ( $foundLeft === 1) { // add the current tile on the left side
-					return $this->addTileOnTheBoard($name, $key, $value, 'left');;
-				}
-				if ($foundLeft === 0) { // invert the current tile and then add on the left side
-					return $this->addTileOnTheBoard($name, $key, array_reverse($value), 'left');;
-				}
-			} else {
-				// try RIGHT side
-				$foundRight = array_search($right, $value);
-				
-				if ( $foundRight === 0) { // add the current tile on the right
-					return $this->addTileOnTheBoard($name, $key, $value, 'right');;
-				}
-				if ($foundRight === 1) { // invert the current tile and then add on the right side
-					return $this->addTileOnTheBoard($name, $key, array_reverse($value), 'right');;
-				}
-			}
-		}
-
-		// else draw from the stock
-		return $this->drawFromStock($name);
 	}
 
 	/**
@@ -234,30 +193,127 @@ class Domino
 	{
 		$hasStock = count($this->stock) === 0 ? false : true;
 		if (!$hasStock) {
-			if (++$this->withoutStock === count($this->players)) { // checks if it is a tie
+			$this->withoutStock[$name] = true;
+			if (count($this->withoutStock) === count($this->players)) { // checks if it is a tie
 				$this->tie = true;
 				return [
-					false, 
+					true, 
+					'tie',
 					'Nobody can play. It is a tie!!'
 				];
 			}
 			return [
 					true, 
+					'without-stock',
 					sprintf('Without stock! %s cannot play.', $name)
 				];
 		}
 
 		$tile = $this->draw($this->stock, $this->players[$name], 1);
-		array_reverse($this->players[$name]);
 		reset($this->players[$name]);
+		array_reverse($this->players[$name]);
 
 		return [
 			false, 
+			'draw',
 			sprintf('%s cannot play, drawing tile %s.', 
 				$name, 
 				$this->printTile($tile)
 			)
 		];
+	}
+
+	/**
+	 * Try to find tile on the left side of the board
+	 *
+	 * @param      integer  $left   The left
+	 * @param      array  	$value  The value
+	 * @param      string   $name   The name
+	 * @param      integer  $key    The key
+	 *
+	 * @return     array    Status of the board after the playing
+	 */
+	private function tryLeftSideBoard(int $left, array $value, string $name, int $key): array
+	{
+		// try LEFT side
+		$foundLeft = array_search($left, $value);
+		
+		if ( $foundLeft === 1) { // add the current tile on the left side
+			return $this->addTileOnTheBoard($name, $key, $value, 'left');;
+		}
+		if ($foundLeft === 0) { // invert the current tile and then add on the left side
+			return $this->addTileOnTheBoard($name, $key, array_reverse($value), 'left');;
+		}
+
+		return [];
+	}
+
+	/**
+	 * Try to find tile on the right side of the board
+	 *
+	 * @param      integer  $right   The right
+	 * @param      array  	$value  The value
+	 * @param      string   $name   The name
+	 * @param      integer  $key    The key
+	 *
+	 * @return     array    Status of the board after the playing
+	 */
+	private function tryRightSideBoard(int $right, array $value, string $name, int $key): array
+	{
+		// try RIGHT side
+		$foundRight = array_search($right, $value);
+		
+		if ( $foundRight === 0) { // add the current tile on the right
+			return $this->addTileOnTheBoard($name, $key, $value, 'right');;
+		}
+		if ($foundRight === 1) { // invert the current tile and then add on the right side
+			return $this->addTileOnTheBoard($name, $key, array_reverse($value), 'right');;
+		}
+
+		return [];
+	}
+
+	/**
+	 * Plays
+	 *
+	 * @param      string  $name   The name
+	 *
+	 * @return     array Status of the board after the playing
+	 */
+	function play(string $name): array
+	{
+		if ($this->getWinner() !== '' || $this->getTie()) {
+			return [true, '', ''];
+		}
+
+		$left = $this->board[0][0];
+		$right = end($this->board)[1];
+
+		// check if the player's tiles match with one of the tiles of the board
+		foreach ($this->players[$name] as $key => $value) {
+			if (rand(0,1) === 0) {
+				$result = $this->tryLeftSideBoard($left, $value, $name, $key);
+				if ($result[0]) {
+					return $result;
+				}
+				$result = $this->tryRightSideBoard($right, $value, $name, $key);
+				if ($result[0]) {
+					return $result;
+				}
+			} else {
+				$result = $this->tryRightSideBoard($right, $value, $name, $key);
+				if ($result[0]) {
+					return $result;
+				}
+				$result = $this->tryLeftSideBoard($left, $value, $name, $key);
+				if ($result[0]) {
+					return $result;
+				}
+			}
+		}
+
+		// else draw from the stock
+		return $this->drawFromStock($name);
 	}
 
 }
